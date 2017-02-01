@@ -1,6 +1,6 @@
 import Models._
 import MyAnimalData.MyGoatData
-import com.example.thrift.ImportantDates
+import com.example.thrift.{ImportantDates, Record}
 import shapeless.labelled._
 import shapeless._
 
@@ -47,6 +47,7 @@ object ClassToMap {
       }
     }
 
+    // TODO: Why is this not working for thrift classes?
     implicit def hconsToMapRecOption[K <: Symbol, V, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
@@ -74,17 +75,29 @@ object ClassToMap {
       }
     }
 
-    // TODO: Why is this not working for thrift?
     implicit def hconsToMapRecImportantDates[K <: Symbol, V <: ImportantDates, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[ImportantDates.Immutable, R],
      tmrT: Lazy[ToMapRec[T]],
      tmrH: Lazy[ToMapRec[R]]
-    ): ToMapRec[FieldType[K, Option[V]] :: T] = new ToMapRec[FieldType[K, Option[V]] :: T] {
-      override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
+    ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
+      override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
 //        println("hconsToMapRecImportantDates", l.head, l.head.getClass)
-        tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value.asInstanceOf[ImportantDates.Immutable]))))
+        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[ImportantDates.Immutable])))
+      }
+    }
+
+    implicit def hconsToMapRecRecord[K <: Symbol, V <: Record, R <: HList, T <: HList]
+    (implicit
+     wit: Witness.Aux[K],
+     gen: LabelledGeneric.Aux[Record.Immutable, R],
+     tmrT: Lazy[ToMapRec[T]],
+     tmrH: Lazy[ToMapRec[R]]
+    ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
+      override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
+        //        println("hconsToMapRecRecord", l.head, l.head.getClass)
+        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[Record.Immutable])))
       }
     }
   }
