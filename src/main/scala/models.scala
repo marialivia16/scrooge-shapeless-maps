@@ -1,5 +1,4 @@
-
-object models {
+object Models {
   case class MyAnimal
   (
     id: String,

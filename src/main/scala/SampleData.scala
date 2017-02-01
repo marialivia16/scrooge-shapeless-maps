@@ -1,4 +1,4 @@
-import models._
+import Models._
 import com.example.thrift._
 
 object SampleData {

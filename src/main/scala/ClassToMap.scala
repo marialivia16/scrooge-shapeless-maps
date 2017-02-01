@@ -1,5 +1,5 @@
-import models._
-import MyAnimalData.CatData
+import Models._
+import MyAnimalData.MyGoatData
 import com.example.thrift.ImportantDates
 import shapeless.labelled._
 import shapeless._
