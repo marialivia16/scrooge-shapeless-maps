@@ -62,16 +62,16 @@ object ClassToMap {
     }
 
     // TODO: Why is this not used for my case class when finding a GoatData? It uses hconsToMapRecNode instead
-    implicit def hconsToMapRecGoatData[K <: Symbol, V <: MyGoatData, R <: HList, T <: HList]
+    implicit def hconsToMapRecGoatData[K <: Symbol, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[MyGoat, R],
      tmrT: Lazy[ToMapRec[T]],
      tmrH: Lazy[ToMapRec[R]]
-    ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
-      override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
+    ): ToMapRec[FieldType[K, MyGoatData] :: T] = new ToMapRec[FieldType[K, MyGoatData] :: T] {
+      override def apply(l: FieldType[K, MyGoatData] :: T): Map[String, Any] = {
 //        println("hconsToMapRecGoatData", l.head, l.head.getClass)
-        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[MyGoat])))
+        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.goat)))
       }
     }
 
