@@ -61,16 +61,16 @@ object ClassToMap {
     }
 
     // TODO: Why is this not used for my case class?
-    implicit def hconsToMapRecCatData[K <: Symbol, V <: MyAnimalData.CatData, R <: HList, T <: HList]
+    implicit def hconsToMapRecGoatData[K <: Symbol, V <: MyAnimalData.GoatData, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
-     gen: LabelledGeneric.Aux[MyCat, R],
+     gen: LabelledGeneric.Aux[MyGoat, R],
      tmrT: Lazy[ToMapRec[T]],
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
         println("hconsToMapRecCatData", l.head, l.head.getClass)
-        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[MyCat])))
+        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[MyGoat])))
       }
     }
 
