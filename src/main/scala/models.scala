@@ -45,9 +45,9 @@ object models {
   sealed trait MyAnimalData
 
   object MyAnimalData {
-    case class CatData(cat: MyCat) extends MyAnimalData
-    case class DogData(dog: MyDog) extends MyAnimalData
-    case class GoatData(goat: MyGoat) extends MyAnimalData
+    case class MyCatData(cat: MyCat) extends MyAnimalData
+    case class MyDogData(dog: MyDog) extends MyAnimalData
+    case class MyGoatData(goat: MyGoat) extends MyAnimalData
   }
 
   case class MyCat

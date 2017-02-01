@@ -15,13 +15,13 @@ object ClassToMap {
   // prioritized properly with respect to hconsToMapRec0—if we didn't, the two would have
   // the same priority and we'd get errors about ambiguous instances.
   trait LowPriorityToMapRec {
-    implicit def hconsToMapRec1[K <: Symbol, V, T <: HList]
+    implicit def hconsToMapRecNode[K <: Symbol, V, T <: HList]
     (implicit
      wit: Witness.Aux[K],
      tmrT: Lazy[ToMapRec[T]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-        println("hconsToMapRec1", l.head, l.head.getClass)
+//        println("hconsToMapRecNode", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> l.head)
       }
     }
@@ -34,7 +34,7 @@ object ClassToMap {
 
     //  Case where we know how to convert the tail of the record, and we know that
     //  the head is something that we can also recursively convert
-    implicit def hconsToMapRec0[K <: Symbol, V, R <: HList, T <: HList]
+    implicit def hconsToMapRecDefault[K <: Symbol, V, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[V, R],
@@ -42,7 +42,7 @@ object ClassToMap {
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-        println("hconsToMapRec0", l.head, l.head.getClass)
+//        println("hconsToMapRecDefault", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head)))
       }
     }
@@ -55,13 +55,13 @@ object ClassToMap {
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, Option[V]] :: T] = new ToMapRec[FieldType[K, Option[V]] :: T] {
       override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
-        println("hconsToMapRecOption", l.head, l.head.getClass)
+//        println("hconsToMapRecOption", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
       }
     }
 
-    // TODO: Why is this not used for my case class?
-    implicit def hconsToMapRecGoatData[K <: Symbol, V <: MyAnimalData.GoatData, R <: HList, T <: HList]
+    // TODO: Why is this not used for my case class when finding a GoatData? It uses hconsToMapRecNode instead
+    implicit def hconsToMapRecGoatData[K <: Symbol, V <: MyGoatData, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[MyGoat, R],
@@ -69,7 +69,7 @@ object ClassToMap {
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-        println("hconsToMapRecCatData", l.head, l.head.getClass)
+//        println("hconsToMapRecGoatData", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[MyGoat])))
       }
     }
@@ -83,7 +83,7 @@ object ClassToMap {
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, Option[V]] :: T] = new ToMapRec[FieldType[K, Option[V]] :: T] {
       override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
-        println("hconsToMapRecImportantDates", l.head, l.head.getClass)
+//        println("hconsToMapRecImportantDates", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value.asInstanceOf[ImportantDates.Immutable]))))
       }
     }

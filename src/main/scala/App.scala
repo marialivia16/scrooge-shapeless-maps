@@ -1,7 +1,5 @@
-import models._
 import com.example.thrift._
 import SampleData._
-import shapeless._
 import ClassToMap._
 
 object App {
@@ -16,7 +14,7 @@ object App {
   }
 
   def main(args: Array[String]) = {
-//    fromThriftClass()
+    fromThriftClass()
     fromCaseClass()
   }
 }

@@ -24,7 +24,7 @@ object SampleData {
     animalType = "Goat",
     keywords = Seq("goat", "funny"),
     description = "This is a goat",
-    data = MyAnimalData.GoatData(MyGoat(
+    data = MyAnimalData.MyGoatData(MyGoat(
       name = "Jumpy",
       description = Some("Playful baby goat"))),
     importantDates = MyImportantDates(
