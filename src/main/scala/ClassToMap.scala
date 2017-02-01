@@ -1,3 +1,5 @@
+import models._
+import MyAnimalData.CatData
 import com.example.thrift.ImportantDates
 import shapeless.labelled._
 import shapeless._
@@ -58,6 +60,21 @@ object ClassToMap {
       }
     }
 
+    // TODO: Why is this not used for my case class?
+    implicit def hconsToMapRecCatData[K <: Symbol, V <: MyAnimalData.CatData, R <: HList, T <: HList]
+    (implicit
+     wit: Witness.Aux[K],
+     gen: LabelledGeneric.Aux[MyCat, R],
+     tmrT: Lazy[ToMapRec[T]],
+     tmrH: Lazy[ToMapRec[R]]
+    ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
+      override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
+        println("hconsToMapRecCatData", l.head, l.head.getClass)
+        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[MyCat])))
+      }
+    }
+
+    // TODO: Why is this not working for thrift?
     implicit def hconsToMapRecImportantDates[K <: Symbol, V <: ImportantDates, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],

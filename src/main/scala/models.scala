@@ -6,7 +6,7 @@ object models {
     animalType: String,
     keywords: Seq[String],
     description: String,
-//    data: AnimalData,
+    data: MyAnimalData,
     importantDates: MyImportantDates,
     flags: Option[MyFlags]
   )
@@ -34,5 +34,39 @@ object models {
     email: String,
     firstName: Option[String],
     lastName: Option[String]
+  )
+
+  case class MyFur
+  (
+    colour: String,
+    pattern: Option[String]
+  )
+
+  sealed trait MyAnimalData
+
+  object MyAnimalData {
+    case class CatData(cat: MyCat) extends MyAnimalData
+    case class DogData(dog: MyDog) extends MyAnimalData
+    case class GoatData(goat: MyGoat) extends MyAnimalData
+  }
+
+  case class MyCat
+  (
+    name: String,
+    fur: Option[MyFur],
+    description: Option[String]
+  )
+
+  case class MyDog
+  (
+    name: String,
+    fur: Option[MyFur],
+    description: Option[String]
+  )
+
+  case class MyGoat
+  (
+    name: String,
+    description: Option[String]
   )
 }
