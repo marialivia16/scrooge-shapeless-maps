@@ -1,5 +1,5 @@
 # scrooge-shapeless-maps
-** Classes to maps
+**Classes to maps**
 
 The aim of this example project is to convert thrift generated classes to nested maps using [`shapeless`](https://github.com/milessabin/shapeless)
 
@@ -8,7 +8,7 @@ In parallel, case classes have been defined to mimic the thrift classes.
 
 As suggested on [Stack Overflow](http://stackoverflow.com/a/31638390) I have defined a type class `ToMapRec` and implicits for heads, hnils and a general recursive case. On top of that a `options` implicit has been added.
 
-** Maps to classes
+**Maps to classes**
 
 Any object that has been converted to nested maps should be able to be converted back to case classes.
 
