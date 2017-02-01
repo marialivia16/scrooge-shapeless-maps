@@ -19,45 +19,44 @@ This [Stack Overflow answer](http://stackoverflow.com/a/31641779) has been used 
 Given an object:
 ```scala
 Animal(
-  id = "animal-id",
-  animalType = AnimalType(0),
-  keywords = Seq("key", "work"),
-  description = "This is a cat",
-  data = AnimalData.Cat(Cat(
-    name = "Felix",
-    fur = Some(Fur(colour = "black", pattern = None)),
-    description = Some("Black cat")
-  )),
-  importantDates = ImportantDates(
-    found = Some(Record(36823L, None)),
-    adopted = None
-  ),
-  flags = Some(Flags(isDangerous = Some(false), isWild = None))
-)
+    id = "cat-id",
+    animalType = AnimalType(0),
+    keywords = Seq("cat", "feline"),
+    description = "This is a cat",
+    data = AnimalData.Cat(Cat(
+      name = "Felix",
+      fur = Some(Fur(colour = "black", pattern = None)),
+      description = Some("Black cat"))),
+    importantDates = ImportantDates(
+      found = Some(Record(36823L, None)),
+      adopted = None),
+    flags = Some(Flags(
+      isDangerous = Some(false),
+      isWild = None))
+  )
 ```
 The output should be:
 ```scala
 Map(
-  id -> animal-id, 
-  animalType -> Cat,
-  keywords -> List(key, work),
-  description -> This is a cat,
-  data -> CatData(Map(
-    name -> Felix,
-    fur -> Some(Map(
-      colour -> black,
-      pattern -> None)),
-    description -> Some("Black cat"))),
-  importantDates -> Map(
-    adopted -> None, 
-    found -> Some(Map(
-      person -> Some(Map(
-        lastName -> None, 
-        firstName -> Some(person), 
-        email -> someone@email.co.uk)), 
-      date -> 36823))),
-  flags -> Some(Map(
-    isWild -> None, 
-    isDangerous -> Some(false)))
-)
+    "id" -> "cat-id",
+    "animalType" -> "Cat",
+    "keywords" -> List("cat", "feline"),
+    "description" -> "This is a cat",
+    "data" -> Map(
+      "name" -> "Felix",
+      "fur" -> Some(Map(
+        "colour" -> "black",
+        "pattern" -> None)),
+      "description" -> Some("Black cat")),
+    "importantDates" -> Map(
+      "adopted" -> None,
+      "found" -> Some(Map(
+        "person" -> Some(Map(
+          "lastName" -> None,
+          "firstName" -> Some("person"),
+          "email" -> "someone@email.co.uk")),
+  "date" -> 36823L))),
+  "flags" -> Some(Map(
+    "isWild" -> None,
+    "isDangerous" -> Some(false)))
 ```
