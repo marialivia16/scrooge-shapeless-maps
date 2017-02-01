@@ -1,6 +1,6 @@
 # scrooge-shapeless-maps
 
-The aim of this example project is to convert thrift generated classes to nested maps using [`shapeless`](https://github.com/milessabin/shapeless)
+The aim of this Scala example project is to convert thrift generated classes to nested maps using [`shapeless`](https://github.com/milessabin/shapeless)
 
 [`scrooge`](https://github.com/twitter/scrooge) is used to generate the classes from thrift.
 In parallel, case classes have been defined to mimic the thrift classes.
