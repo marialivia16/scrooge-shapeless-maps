@@ -50,12 +50,18 @@ object MapToClass {
      fromMapT: Lazy[FromMap[T]]
     ): FromMap[FieldType[K, Option[V]] :: T] = new FromMap[FieldType[K, Option[V]] :: T] {
       def apply(m: Map[String, Any]): Option[FieldType[K, Option[V]] :: T] = {
-        for {
-          v <- m.get(witness.value.name)
-          r <- Typeable[Option[Map[String, Any]]].cast(v)
-          h <- r.map(fromMapH.value(_))
-          t <- fromMapT.value(m)
-        } yield field[K](h.map(gen.from)) :: t
+        m.get(witness.value.name).get match {
+          case Some(v) =>
+            for {
+              r <- Typeable[Option[Map[String, Any]]].cast(Some(v))
+              h <- r.map(fromMapH.value(_))
+              t <- fromMapT.value(m)
+            } yield field[K](h.map(gen.from)) :: t
+          case None =>
+            for {
+              t <- fromMapT.value(m)
+            } yield field[K](None) :: t
+        }
         }
     }
   }

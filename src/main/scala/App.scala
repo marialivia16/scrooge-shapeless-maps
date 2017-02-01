@@ -1,4 +1,4 @@
-import Models.MyAnimal
+import Models.{MyPerson, MyRecord, MyImportantDates, MyAnimal}
 import com.example.thrift._
 import SampleData._
 import ClassToMap._
