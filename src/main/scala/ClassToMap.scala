@@ -1,3 +1,4 @@
+import com.example.thrift.ImportantDates
 import shapeless.labelled._
 import shapeless._
 
@@ -54,6 +55,19 @@ object ClassToMap {
       override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
         println("hconsToMapRecOption", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
+      }
+    }
+
+    implicit def hconsToMapRecImportantDates[K <: Symbol, V <: ImportantDates, R <: HList, T <: HList]
+    (implicit
+     wit: Witness.Aux[K],
+     gen: LabelledGeneric.Aux[ImportantDates.Immutable, R],
+     tmrT: Lazy[ToMapRec[T]],
+     tmrH: Lazy[ToMapRec[R]]
+    ): ToMapRec[FieldType[K, Option[V]] :: T] = new ToMapRec[FieldType[K, Option[V]] :: T] {
+      override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
+        println("hconsToMapRecImportantDates", l.head, l.head.getClass)
+        tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value.asInstanceOf[ImportantDates.Immutable]))))
       }
     }
   }
