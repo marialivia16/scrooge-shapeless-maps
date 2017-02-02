@@ -5,11 +5,25 @@ import ClassToMap._
 import MapToClass._
 
 object App {
+
+  def updateNestedMap(map: Map[String, Any], path: List[String], value: Any): Map[String, Any] = path match {
+    case key :: Nil => map.updated(key, value)
+    case key :: tail =>
+      map(key) match {
+        case None => map.updated(key, Some(updateNestedMap(Map(), tail, value)))
+        case optionMap: Option[Map[String, Any]] => map.updated(key, Some(updateNestedMap(optionMap.get, tail, value)))
+        case simpleMap: Map[String, Any] => map.updated(key, updateNestedMap(simpleMap, tail, value))
+        case somethingElse => throw new UnsupportedOperationException(s"Unexpected type found during update: $somethingElse")
+      }
+  }
   def fromThriftClass() = {
 //    val mapCat = thriftCat.data.asInstanceOf[AnimalData.Cat].cat.toMap
     val mapCat = thriftCat.toMap
     println("==THRIFT==> CAT MAP", mapCat)
-    val backAgain = to[Animal.Immutable].from(mapCat)
+
+    val updatedCatMap = updateNestedMap(map = mapCat, path = "flags.isWild".split('.').toList, value = Some(false))
+
+    val backAgain = to[Animal.Immutable].from(updatedCatMap)
     println("==CAT MAP==> THRIFT", backAgain)
   }
 
