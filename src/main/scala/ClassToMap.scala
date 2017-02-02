@@ -1,6 +1,4 @@
-import Models._
-import MyAnimalData.MyGoatData
-import com.example.thrift.{ImportantDates, Record}
+import com.example.thrift._
 import shapeless.labelled._
 import shapeless._
 
@@ -21,7 +19,6 @@ object ClassToMap {
      tmrT: Lazy[ToMapRec[T]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-//        println("hconsToMapRecNode", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> l.head)
       }
     }
@@ -42,12 +39,10 @@ object ClassToMap {
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-//        println("hconsToMapRecDefault", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head)))
       }
     }
 
-    // TODO: Why is this not working for thrift classes?
     implicit def hconsToMapRecOption[K <: Symbol, V, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
@@ -56,48 +51,7 @@ object ClassToMap {
      tmrH: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, Option[V]] :: T] = new ToMapRec[FieldType[K, Option[V]] :: T] {
       override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
-//        println("hconsToMapRecOption", l.head, l.head.getClass)
         tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
-      }
-    }
-
-    // TODO: Why is this not used for my case class when finding a GoatData? It uses hconsToMapRecNode instead
-    implicit def hconsToMapRecGoatData[K <: Symbol, R <: HList, T <: HList]
-    (implicit
-     wit: Witness.Aux[K],
-     gen: LabelledGeneric.Aux[MyGoat, R],
-     tmrT: Lazy[ToMapRec[T]],
-     tmrH: Lazy[ToMapRec[R]]
-    ): ToMapRec[FieldType[K, MyGoatData] :: T] = new ToMapRec[FieldType[K, MyGoatData] :: T] {
-      override def apply(l: FieldType[K, MyGoatData] :: T): Map[String, Any] = {
-//        println("hconsToMapRecGoatData", l.head, l.head.getClass)
-        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.goat)))
-      }
-    }
-
-    implicit def hconsToMapRecImportantDates[K <: Symbol, V <: ImportantDates, R <: HList, T <: HList]
-    (implicit
-     wit: Witness.Aux[K],
-     gen: LabelledGeneric.Aux[ImportantDates.Immutable, R],
-     tmrT: Lazy[ToMapRec[T]],
-     tmrH: Lazy[ToMapRec[R]]
-    ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
-      override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-//        println("hconsToMapRecImportantDates", l.head, l.head.getClass)
-        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[ImportantDates.Immutable])))
-      }
-    }
-
-    implicit def hconsToMapRecRecord[K <: Symbol, V <: Record, R <: HList, T <: HList]
-    (implicit
-     wit: Witness.Aux[K],
-     gen: LabelledGeneric.Aux[Record.Immutable, R],
-     tmrT: Lazy[ToMapRec[T]],
-     tmrH: Lazy[ToMapRec[R]]
-    ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
-      override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-        //        println("hconsToMapRecRecord", l.head, l.head.getClass)
-        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head.asInstanceOf[Record.Immutable])))
       }
     }
   }
@@ -109,4 +63,31 @@ object ClassToMap {
      tmr: Lazy[ToMapRec[L]]
     ): Map[String, Any] = tmr.value(gen.to(a))
   }
+
+  implicit def animalLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Animal.Immutable, L]): LabelledGeneric.Aux[Animal, L] =
+    anyLabelledGeneric[Animal, Animal.Immutable, L]
+  implicit def importantDatesLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[ImportantDates.Immutable, L]): LabelledGeneric.Aux[ImportantDates, L] =
+    anyLabelledGeneric[ImportantDates, ImportantDates.Immutable, L]
+  implicit def recordLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Record.Immutable, L]): LabelledGeneric.Aux[Record, L] =
+    anyLabelledGeneric[Record, Record.Immutable, L]
+  implicit def flagsLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Flags.Immutable, L]): LabelledGeneric.Aux[Flags, L] =
+    anyLabelledGeneric[Flags, Flags.Immutable, L]
+  implicit def furLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Fur.Immutable, L]): LabelledGeneric.Aux[Fur, L] =
+    anyLabelledGeneric[Fur, Fur.Immutable, L]
+  implicit def personLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Person.Immutable, L]): LabelledGeneric.Aux[Person, L] =
+    anyLabelledGeneric[Person, Person.Immutable, L]
+
+  implicit def dogLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Dog.Immutable, L]) : LabelledGeneric.Aux[Dog, L] =
+    anyLabelledGeneric[Dog, Dog.Immutable, L]
+  implicit def catLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Cat.Immutable, L]) : LabelledGeneric.Aux[Cat, L] =
+    anyLabelledGeneric[Cat, Cat.Immutable, L]
+  implicit def goatLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[Goat.Immutable, L]) : LabelledGeneric.Aux[Goat, L] =
+    anyLabelledGeneric[Goat, Goat.Immutable, L]
+
+  def anyLabelledGeneric[A, I <: A, L <: HList](implicit gen: LabelledGeneric.Aux[I, L]): LabelledGeneric.Aux[A, L] =
+    new LabelledGeneric[A] {
+      override type Repr = L
+      override def to(t: A): Repr = gen.to(t.asInstanceOf[I])
+      override def from(r: Repr): A = gen.from(r)
+    }
 }

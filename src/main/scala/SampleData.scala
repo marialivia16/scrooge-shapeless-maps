@@ -6,13 +6,17 @@ object SampleData {
     id = "cat-id",
     animalType = AnimalType(0),
     keywords = Seq("cat", "feline"),
-    description = "This is a cat",
+    description = "The fluffiest fluff ever to fluff.",
     data = AnimalData.Cat(Cat(
       name = "Felix",
       fur = Some(Fur(colour = "black", pattern = None)),
       description = Some("Black cat"))),
     importantDates = ImportantDates(
-      found = Some(Record(36823L, None)),
+      found = Some(Record(36823L,
+        person = Some(Person(
+          email = "someone@email.co.uk",
+          firstName = Some("stranger"),
+          lastName = None)))),
       adopted = None),
     flags = Some(Flags(
       isDangerous = Some(false),

@@ -5,17 +5,18 @@ object SampleOutput {
     "keywords" -> List("key", "word"),
     "description" -> "This is a cat",
     "data" -> Map(
-      "name" -> "Felix",
-      "fur" -> Some(Map(
-        "colour" -> "black",
-        "pattern" -> None)),
-      "description" -> Some("Black cat")),
+      "cat" -> Map(
+        "name" -> "Felix",
+        "fur" -> Some(Map(
+          "colour" -> "black",
+          "pattern" -> None)),
+        "description" -> Some("Black cat"))),
     "importantDates" -> Map(
       "adopted" -> None,
       "found" -> Some(Map(
         "person" -> Some(Map(
           "lastName" -> None,
-          "firstName" -> Some("person"),
+          "firstName" -> Some("stranger"),
           "email" -> "someone@email.co.uk")),
   "date" -> 36823L))),
   "flags" -> Some(Map(
@@ -29,8 +30,9 @@ object SampleOutput {
     "keywords" -> List("goat", "funny"),
     "description" -> "This is a goat",
     "data" -> Map(
-      "name" -> "Jumpy",
-      "description" -> Some("Playful baby goat")),
+      "goat" -> Map(
+        "name" -> "Jumpy",
+        "description" -> Some("Playful baby goat"))),
     "importantDates" -> Map(
       "adopted" -> None,
       "found" -> Some(Map(
