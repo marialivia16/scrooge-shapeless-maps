@@ -22,13 +22,17 @@ Animal(
     id = "cat-id",
     animalType = AnimalType(0),
     keywords = Seq("cat", "feline"),
-    description = "This is a cat",
+    description = "The fluffiest fluff ever to fluff.",
     data = AnimalData.Cat(Cat(
       name = "Felix",
       fur = Some(Fur(colour = "black", pattern = None)),
       description = Some("Black cat"))),
     importantDates = ImportantDates(
-      found = Some(Record(36823L, None)),
+      found = Some(Record(36823L,
+        person = Some(Person(
+          email = "someone@email.co.uk",
+          firstName = Some("stranger"),
+          lastName = None)))),
       adopted = None),
     flags = Some(Flags(
       isDangerous = Some(false),
@@ -40,23 +44,25 @@ The output should be:
 Map(
     "id" -> "cat-id",
     "animalType" -> "Cat",
-    "keywords" -> List("cat", "feline"),
+    "keywords" -> List("key", "word"),
     "description" -> "This is a cat",
     "data" -> Map(
-      "name" -> "Felix",
-      "fur" -> Some(Map(
-        "colour" -> "black",
-        "pattern" -> None)),
-      "description" -> Some("Black cat")),
+      "cat" -> Map(
+        "name" -> "Felix",
+        "fur" -> Some(Map(
+          "colour" -> "black",
+          "pattern" -> None)),
+        "description" -> Some("Black cat"))),
     "importantDates" -> Map(
       "adopted" -> None,
       "found" -> Some(Map(
         "person" -> Some(Map(
           "lastName" -> None,
-          "firstName" -> Some("person"),
+          "firstName" -> Some("stranger"),
           "email" -> "someone@email.co.uk")),
   "date" -> 36823L))),
   "flags" -> Some(Map(
     "isWild" -> None,
     "isDangerous" -> Some(false)))
+  )
 ```
