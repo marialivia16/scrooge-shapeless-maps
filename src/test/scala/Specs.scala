@@ -1,17 +1,18 @@
-import com.example.thrift.Animal
+import com.example.thrift.{Animal, AnimalData}
 import org.scalatest._
 import SampleData._
 import SampleOutput._
 import ClassToMap._
+import Models.MyAnimalData.MyGoatData
 
 class Specs extends FlatSpec with Matchers {
-    it should "should convert case class goat to nested maps" in {
-      val mapConversionFromGoat = caseClassGoat.toMap
-      mapConversionFromGoat should equal(mapGoat)
+    it should "convert case class goat data to nested maps" in {
+      val mapConversionFromGoat = caseClassGoat.data.asInstanceOf[MyGoatData].toMap
+      mapConversionFromGoat should equal(mapGoatData)
     }
 
-  it should "should convert thrift class cat to nested maps" in {
-    val mapConversionFromCat = thriftCat.asInstanceOf[Animal.Immutable].toMap
-    mapConversionFromCat should equal(mapCat)
+  it should "convert thrift class cat data to nested maps" in {
+    val mapConversionFromCat = thriftCat.data.asInstanceOf[AnimalData.Cat].toMap
+    mapConversionFromCat should equal(mapCatData)
   }
 }

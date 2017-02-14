@@ -24,6 +24,17 @@ object SampleOutput {
     "isDangerous" -> Some(false)))
   )
 
+  val mapCatData = Map(
+    "cat" -> Map(
+      "_passthroughFields" -> Map(),
+      "name" -> "Felix",
+      "fur" -> Some(Map(
+        "_passthroughFields" -> Map(),
+        "colour" -> "black",
+        "pattern" -> None)),
+      "description" -> Some("Black cat"))
+  )
+
   val mapGoat = Map(
     "id" -> "goat-id",
     "animalType" -> "Goat",
@@ -44,5 +55,11 @@ object SampleOutput {
     "flags" -> Some(Map(
       "isWild" -> Some(false),
       "isDangerous" -> Some(false)))
+  )
+
+  val mapGoatData = Map(
+    "goat" -> Map(
+      "name" -> "Jumpy",
+      "description" -> Some("Playful baby goat"))
   )
 }
