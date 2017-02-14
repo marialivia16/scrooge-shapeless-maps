@@ -5,7 +5,7 @@ object SampleData {
   val thriftCat = Animal(
     id = "cat-id",
     animalType = AnimalType(0),
-    keywords = Seq("cat", "feline"),
+    keywords = Seq(Keyword("cat"), Keyword("feline")),
     description = "The fluffiest fluff ever to fluff.",
     data = AnimalData.Cat(Cat(
       name = "Felix",
@@ -26,7 +26,7 @@ object SampleData {
   val caseClassGoat = MyAnimal(
     id = "goat-id",
     animalType = "Goat",
-    keywords = Seq("goat", "funny"),
+    keywords = Seq(MyKeyword("goat"), MyKeyword("funny")),
     description = "This is a goat",
     data = MyAnimalData.MyGoatData(MyGoat(
       name = "Jumpy",

@@ -50,7 +50,7 @@ object MapToClass {
      fromMapT: Lazy[FromMap[T]]
     ): FromMap[FieldType[K, Option[V]] :: T] = new FromMap[FieldType[K, Option[V]] :: T] {
       def apply(m: Map[String, Any]): Option[FieldType[K, Option[V]] :: T] = {
-        m.get(witness.value.name).get match {
+        m(witness.value.name) match {
           case Some(v) =>
             for {
               r <- Typeable[Option[Map[String, Any]]].cast(Some(v))
@@ -64,6 +64,30 @@ object MapToClass {
         }
         }
     }
+
+    implicit def hconsFromMapSeq[K <: Symbol, V, R <: HList, T <: HList]
+    (implicit
+     witness: Witness.Aux[K],
+     gen: LabelledGeneric.Aux[V, R],
+     tmrH: Lazy[FromMap[R]],
+     tmrT: Lazy[FromMap[T]]
+    ): FromMap[FieldType[K, Seq[V]] :: T] = new FromMap[FieldType[K, Seq[V]] :: T] {
+      def apply(map: Map[String, Any]): Option[FieldType[K, Seq[V]] :: T] = {
+        map(witness.value.name) match {
+          case list: Seq[_] if list.nonEmpty =>
+            for {
+              r <- Typeable[Seq[Map[String, Any]]].cast(list)
+              h = r.map(elem => tmrH.value(elem).get)
+              t <- tmrT.value(map)
+            } yield field[K](h.map(repr => gen.from(repr))) :: t
+          case _ =>
+            for {
+              tail <- tmrT.value(map)
+            } yield field[K](Seq()) :: tail
+        }
+      }
+    }
+
   }
 
   class ConvertHelper[A] {

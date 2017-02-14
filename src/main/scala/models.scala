@@ -3,12 +3,14 @@ object Models {
   (
     id: String,
     animalType: String,
-    keywords: Seq[String],
+    keywords: Seq[MyKeyword],
     description: String,
     data: MyAnimalData,
     importantDates: MyImportantDates,
     flags: Option[MyFlags]
   )
+
+  case class MyKeyword(name: String)
 
   case class MyImportantDates
   (

@@ -60,10 +60,14 @@ struct ImportantDates {
   2: optional Record adopted
 }
 
+struct Keyword {
+  1: required string name
+}
+
 struct Animal {
   1: required AnimalId id
   2: required AnimalType animalType
-  3: required list<string> keywords
+  3: required list<Keyword> keywords
   4: required string description
   5: required AnimalData data
   6: required ImportantDates importantDates
