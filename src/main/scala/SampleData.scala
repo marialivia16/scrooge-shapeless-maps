@@ -12,7 +12,8 @@ object SampleData {
       fur = Some(Fur(colour = "black", pattern = None)),
       description = Some("Black cat"))),
     importantDates = ImportantDates(
-      found = Some(Record(36823L,
+      found = Some(Record(
+        date = 36823L,
         person = Some(Person(
           email = "someone@email.co.uk",
           firstName = Some("stranger"),
@@ -28,9 +29,9 @@ object SampleData {
     animalType = "Goat",
     keywords = Seq(MyKeyword("goat"), MyKeyword("funny")),
     description = "This is a goat",
-    data = MyAnimalData.MyGoatData(MyGoat(
+    data = MyGoat(
       name = "Jumpy",
-      description = Some("Playful baby goat"))),
+      description = Some("Playful baby goat")),
     importantDates = MyImportantDates(
       found = Some(MyRecord(
         date = 11123L,

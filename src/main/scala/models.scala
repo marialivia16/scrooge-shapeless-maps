@@ -43,31 +43,37 @@ object Models {
     pattern: Option[String]
   )
 
-  sealed trait MyAnimalData
+  /**
+    * This is how thrift generated classes look like:
+    *
+    * sealed trait MyAnimalData
+    * object MyAnimalData {
+    *   case class MyCatData(cat: MyCat) extends MyAnimalData
+    *   case class MyDogData(dog: MyDog) extends MyAnimalData
+    *   case class MyGoatData(goat: MyGoat) extends MyAnimalData
+    * }
+    *
+    */
 
-  object MyAnimalData {
-    case class MyCatData(cat: MyCat) extends MyAnimalData
-    case class MyDogData(dog: MyDog) extends MyAnimalData
-    case class MyGoatData(goat: MyGoat) extends MyAnimalData
-  }
+  sealed trait MyAnimalData
 
   case class MyCat
   (
     name: String,
     fur: Option[MyFur],
     description: Option[String]
-  )
+  ) extends MyAnimalData
 
   case class MyDog
   (
     name: String,
     fur: Option[MyFur],
     description: Option[String]
-  )
+  ) extends MyAnimalData
 
   case class MyGoat
   (
     name: String,
     description: Option[String]
-  )
+  ) extends MyAnimalData
 }
