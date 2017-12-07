@@ -19,10 +19,8 @@ object ClassToMap {
     (implicit
      wit: Witness.Aux[K],
      tmrT: Lazy[ToMapRec[T]]
-    ): ToMapRec[FieldType[K, V] :: T] = (hlist: FieldType[K, V] :: T) => {
-      println(hlist.head)
+    ): ToMapRec[FieldType[K, V] :: T] = (hlist: FieldType[K, V] :: T) =>
       tmrT.value(hlist.tail) + (wit.value.name -> hlist.head)
-    }
   }
 
   object ToMapRec extends LowPriorityToMapRec {
@@ -47,14 +45,9 @@ object ClassToMap {
      tmrT: Lazy[ToMapRec[T]],
      tmrH: Lazy[ToMapRec[H]]
     ): ToMapRec[FieldType[K, H] :+: T] = (hlist: FieldType[K, H] :+: T) => {
-      println("FOUND A COPRODUCT")
       hlist match {
-        case Inl(h) =>
-          println("head", h)
-          tmrH.value(h)
-        case Inr(t) =>
-          println("tail", t)
-          tmrT.value(t)
+        case Inl(h) => tmrH.value(h)
+        case Inr(t) => tmrT.value(t)
       }
     }
 

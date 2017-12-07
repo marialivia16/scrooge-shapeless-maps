@@ -3,6 +3,7 @@ import MapToClass._
 import Models._
 import SampleData._
 import com.example.thrift._
+import ToMapMagnolia._
 
 object App {
 
@@ -37,9 +38,19 @@ object App {
     println("==GOAT MAP==> CASE CLASS", backAgain)
   }
 
+  def fromCaseClassUsingMagnolia() = {
+    val mapGoat = caseClassGoat.toMapMagnolia
+    println("==CASE CLASS==> GOAT MAP", mapGoat)
+//    val backAgain = to[MyAnimal].from(mapGoat)
+//    println("==GOAT MAP==> CASE CLASS", backAgain)
+  }
+
   def main(args: Array[String]): Unit = {
+    println("---THRIFT TO MAP AND BACK---")
     fromThriftClass()
-    println("------")
+    println("---CASE CLASS TO MAP AND BACK---")
     fromCaseClass()
+//    println("---CASE CLASS TO MAP AND BACK USING MAGNOLIA---")
+//    fromCaseClassUsingMagnolia()
   }
 }
