@@ -15,7 +15,7 @@ Any object that has been converted to nested maps should be able to be converted
 
 This [Stack Overflow answer](http://stackoverflow.com/a/31641779) has been used for this functionality.
 
-# Example
+### Example
 Given an object:
 ```scala
 Animal(
@@ -66,3 +66,9 @@ Map(
     "isDangerous" -> Some(false)))
   )
 ```
+
+### Testing
+There are some basic tests, run them using: `sbt test`
+
+### Extra
+The class to map case is also implemented using [Magnolia](http://magnolia.work).

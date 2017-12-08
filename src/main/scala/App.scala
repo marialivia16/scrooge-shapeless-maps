@@ -50,7 +50,7 @@ object App {
     fromThriftClass()
     println("---CASE CLASS TO MAP AND BACK---")
     fromCaseClass()
-//    println("---CASE CLASS TO MAP AND BACK USING MAGNOLIA---")
-//    fromCaseClassUsingMagnolia()
+    println("---CASE CLASS TO MAP AND BACK USING MAGNOLIA---")
+    fromCaseClassUsingMagnolia()
   }
 }

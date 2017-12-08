@@ -5,6 +5,7 @@ import SampleData._
 import SampleOutput._
 import com.example.thrift.Animal
 import org.scalatest._
+import ToMapMagnolia._
 
 class Specs extends FlatSpec with Matchers {
   it should "convert case class goat to nested maps" in {
@@ -15,6 +16,11 @@ class Specs extends FlatSpec with Matchers {
   it should "convert thrift class cat to nested maps" in {
     val mapConversionFromCat = thriftCat.toMap
     mapConversionFromCat should equal(mapCat)
+  }
+
+  it should "convert case class goat to nested maps using Magnolia" in {
+    val mapConversionFromGoat = caseClassGoat.toMapMagnolia
+    mapConversionFromGoat should equal(mapGoat)
   }
 
   it should "convert nested maps back to a goat case class" in {
